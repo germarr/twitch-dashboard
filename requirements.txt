@@ -1,0 +1,14 @@
+fastapi>=0.68.0,<0.69.0
+pydantic>=1.8.0,<2.0.0
+uvicorn>=0.15.0,<0.16.0
+pandas
+google-api-python-client 
+google-auth-httplib2 
+google-auth-oauthlib
+python-dotenv
+lock
+python-dotenv
+psycopg2-binary
+requests
+aiofiles
+jinja2

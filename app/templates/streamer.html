@@ -1,0 +1,192 @@
+{% extends "layout.html" %}
+{% block content %}
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    let newlink = document.querySelector("#countrydrop").value;
+    
+    function reload(){
+      newlink = document.querySelector("#countrydrop").value;
+      location.href = `.${newlink}`;
+    };
+    
+    document.querySelector("#buttons").onclick = reload;
+  });
+</script>
+  <div>
+    <div class="flex items-center justify-center bg-indigo-500 sticky top-0 z-50 space-x-3">
+      <div class="py-6 pl-6">
+        <h1 class="text-4xl font-semibold text-white">TwitchApp</h1>
+      </div>
+    </div>
+    <div class="relative bg-indigo-300 py-5 mb-3">
+      <div class="grid grid-cols-1 place-content-center place-items-center gap-y-2">
+        <div><h1 class="text-xl font-semibold text-white">Choose Your Language</h1></div>
+        <div class="flex items-center justify-center space-x-2">
+          <div>
+            <select id="countrydrop" class="py-1 pl-1 w-28 rounded-md font-normal">
+              <option value="/bu">- SELECT -</option>
+              <option value="/de">DE</option>
+              <option value="/en">EN</option>
+              <option value="/es">ES</option>
+              <option value="/fr">FR</option>
+              <option value="/it">IT</option>
+              <option value="/ja">JA</option>
+              <option value="/ko">KO</option>
+              <option value="/it">RU</option>
+            </select>
+          </div>
+          <div>
+            <button id="buttons" type="submit" class="bg-green-500 text-white font-semibold rounded-md flex-auto py-1 px-5">
+                    Search!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 place-items-center lg:grid-cols-4 relative gap-3 mx-2 mb-3">
+      <!-- Total Views -->
+      <div>
+        <div class="shadow-lg rounded-2xl w-60 p-4 bg-white dark:bg-gray-800">
+            <div class="flex items-center">
+                <span class="bg-green-500 p-2 h-4 w-4 rounded-full relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </span>
+                <p class="text-base text-gray-700 dark:text-gray-50 ml-2">
+                    Total Viewers
+                </p>
+            </div>
+            <div class="flex flex-col justify-start">
+                <p class="text-gray-800 text-xl text-left dark:text-white font-bold mt-4">
+                  {{"{:,}".format(vids.total_views)}}
+                </p>
+                <div class="flex items-center text-sm">
+                  <span>
+                    {{"{:,}".format(vids.median)}}
+                  </span>
+                  <span class="text-gray-400">
+                    &nbsp;viewers per channel.
+                  </span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Top Category -->
+      <div>
+        <div class="shadow-lg rounded-2xl w-full p-4 bg-white dark:bg-gray-800">
+            <div class="flex items-center">
+                <span class="bg-blue-500 p-2 h-4 w-4 rounded-full relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </span>
+                <p class="text-base text-gray-700 dark:text-gray-50 ml-2">
+                    Most Popular Category
+                </p>
+            </div>
+            <div class="flex flex-col justify-start">
+                <p class="text-gray-800 text-lg text-left dark:text-white font-bold mt-4">
+                    {{vids.top_category.game_name}}
+                </p>
+                <div class="flex items-center text-sm">
+                  <span>
+                    {{vids.top_category.0}}
+                  </span>
+                  <span class="text-gray-400">
+                    &nbsp;channels.
+                  </span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Most Watched Category -->
+      <div>
+        <div class="shadow-lg rounded-2xl w-full p-4 bg-white dark:bg-gray-800">
+            <div class="flex items-center">
+                <span class="bg-indigo-600 p-2 h-4 w-4 rounded-full relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </span>
+                <p class="text-md text-gray-700 dark:text-gray-50 ml-2">
+                    Most Watched Category
+                </p>
+            </div>
+            <div class="flex flex-col justify-start">
+                <p class="text-gray-800 text-lg text-left dark:text-white font-bold mt-4">
+                    {{vids.top_game.game_name}}
+                </p>
+                <div class="flex items-center text-sm">
+                  <span>
+                    {{"{:,}".format(vids.top_game.viewer_count)}}
+                  </span>
+                  <span class="text-gray-400">
+                    &nbsp;views.
+                  </span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Most Popular Streamer -->
+      <div>
+        <div class="shadow-lg rounded-2xl w-72 p-4 bg-white dark:bg-gray-800">
+            <div class="flex items-center">
+                <span class="bg-red-500 p-2 h-4 w-4 rounded-full relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-white h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </span>
+                <p class="text-md text-gray-700 dark:text-gray-50 ml-2">
+                    Most Popular Streamer
+                </p>
+            </div>
+            <div class="flex items-center justify-start my-1 space-x-2">
+              <a href="#" class="block relative">
+                <img src={{topStreamer.profile_image_url}} alt="" class="mx-auto object-cover rounded-full h-10 w-10">
+              </a>
+              <div class="flex flex-col justify-start">
+                  <p class="text-gray-800 text-lg text-left dark:text-white font-bold mt-4">
+                      {{topStreamer.display_name}}
+                  </p>
+                  <div class="flex items-center text-sm">
+                    <span>
+                      {{topStreamer.description[0:25] + " ..."}}
+                    </span>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 place-items-center md:grid-cols-3 lg:grid-cols-4 space-y-2 relative">
+      {% for i in twitch_videos %}
+      <div class="overflow-hidden shadow-md rounded-tr-lg rounded-bl-lg h-90 w-60 md:w-80 cursor-pointer m-auto">
+        <a href="#" class="w-full block h-full">
+            <img alt="blog photo" src={{i.thumbnail_url.replace("{width}","480").replace("{height}","270")}} class="max-h-40 w-full object-cover"/>
+            <div class="bg-white dark:bg-gray-800 w-full px-4 pt-4">
+                <p class="text-indigo-500 text-md font-medium">{{i.game_name}}
+                </p>
+                <p class="text-gray-800 dark:text-white text-xl font-medium mb-2">
+                  {{i.user_name}}
+                </p>
+                <p class="text-gray-400 dark:text-gray-300 font-light text-sm">
+                  {{i.title}}
+                </p>
+            </div>
+        </a>
+        <div class="px-4">
+          <div class="flex items-center justify-start my-4 space-x-4">
+              <span class="px-2 py-1 flex items-center text-xs rounded-md text-blue-500 font-semibold bg-blue-100">
+                  {{"{:,}".format(i.viewer_count)}}&nbsp;viewers.
+              </span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>  
+  </div>
+{% endblock %}
+
+
+
